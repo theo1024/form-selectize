@@ -149,7 +149,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
         return $this->entity = $items;
     }
 
-	
+
 	/**
 	* Gets items
 	* @return array
@@ -157,7 +157,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	public function getItems() {
         return $this->entity;
 	}
-    
+
 
 	public function setValue($value)
 	{
@@ -201,7 +201,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		if($this->options['mode'] === 'select')
 		{
@@ -218,7 +218,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public function getControl()
+	public function getControl(): Html|string
 	{
 		$this->setOption('rendered', TRUE);
 		$name = $this->getHtmlName();
