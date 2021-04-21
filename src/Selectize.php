@@ -11,6 +11,7 @@ namespace App\Form\Control;
 use Doctrine\ORM\PersistentCollection;
 use Kdyby\Doctrine\Collections\ReadOnlyCollectionWrapper;
 use Nette;
+use Nette\Utils;
 use Nette\Forms\Form;
 
 /**
@@ -218,7 +219,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public function getControl(): Html|string
+	public function getControl(): Utils\Html
 	{
 		$this->setOption('rendered', TRUE);
 		$name = $this->getHtmlName();
