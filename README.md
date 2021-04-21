@@ -12,7 +12,7 @@ Form extension for Nette framework
 
 ## Requirements
 
-* Nette 2.2+
+* Nette 3.0+
 * jQuery 1.8+
 * [Selectize] (https://github.com/brianreavis/selectize.js)
 
@@ -24,7 +24,7 @@ The best way to install olicek/form-selectize is using  [Composer](http://getcom
 $ composer require olicek/form-selectize
 ```
 
-After installation server site, you have to install client site. 
+After installation server site, you have to install client site.
 The best way is use [bower](http://bower.io/search/?q=selectize-for-nette).
 
 Link `selectize.js` from **client-side** and original `selectize.js` and call somewhere function `selectize()`.
@@ -65,7 +65,7 @@ array (2)
 		id => 2
 		name => "Second item"
 ```
-id is set as valueField and name as labelField and searchField in config.neon. You can use whatever, have to just set in config.neon or in addSelectize method. For example: 
+id is set as valueField and name as labelField and searchField in config.neon. You can use whatever, have to just set in config.neon or in addSelectize method. For example:
 ```
 valueField: slug
 ```
