@@ -18,7 +18,7 @@ use Nette\PhpGenerator as Code;
  */
 class SelectizeExtension extends Nette\DI\CompilerExtension
 {
-	
+
 	private $defaults =  [
 	    'mode' => 'full',
 	    'create' => true,
@@ -29,7 +29,7 @@ class SelectizeExtension extends Nette\DI\CompilerExtension
 	    'labelField' => 'name',
 	    'searchField' => 'name'
 	];
-	
+
 //	public function loadConfiguration()
 //	{
 //		$config = $this->getConfig($this->defaults);
@@ -38,17 +38,16 @@ class SelectizeExtension extends Nette\DI\CompilerExtension
 //			->setClass('\App\Form\Control\Selectize');
 //	}
 
-	
+
 	public function afterCompile(Code\ClassType $class)
 	{
 		parent::afterCompile($class);
 
 		$init = $class->methods['initialize'];
-		$config = $this->getConfig($this->defaults);
-		$init->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $config]);
+		$init->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $this->default]);
 	}
-	
-	
+
+
 	/**
 	 * @param \Nette\Configurator $configurator
 	 */
