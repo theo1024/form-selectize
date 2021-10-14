@@ -302,7 +302,8 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 
 	private function split($selectize)
 	{
-		$return = Nette\Utils\Strings::split($selectize, '~'.$this->options['delimiter'].'\s*~');
+		$return = Nette\Utils\Strings::split(empty($selectize) ?
+			'' : $selectize, '~'.$this->options['delimiter'].'\s*~');
 		return $return[0] === "" ? [] : $return;
 	}
 
