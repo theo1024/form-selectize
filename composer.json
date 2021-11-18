@@ -1,7 +1,7 @@
 {
-	"name": "olicek/form-selectize",
+	"name": "theo1024/form-selectize",
 	"description": "Form extension for Nette framework",
-	"homepage": "https://github.com/Olicek/form-selectize",
+	"homepage": "https://github.com/theo1024/form-selectize",
 	"license": "GPL-3.0",
 	"authors": [
 		{
