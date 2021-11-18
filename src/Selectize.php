@@ -12,6 +12,7 @@ use Doctrine\ORM\PersistentCollection;
 use Kdyby\Doctrine\Collections\ReadOnlyCollectionWrapper;
 use Nette;
 use Nette\Forms\Form;
+use Nette\Utils;
 
 /**
  * Description of Selectize
@@ -218,7 +219,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public function getControl(): Html|string
+	public function getControl(): Utils\Html
 	{
 		$this->setOption('rendered', TRUE);
 		$name = $this->getHtmlName();
