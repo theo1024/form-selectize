@@ -30,31 +30,20 @@ class SelectizeExtension extends Nette\DI\CompilerExtension
 	    'searchField' => 'name'
 	];
 
-//	public function loadConfiguration()
-//	{
-//		$config = $this->getConfig($this->defaults);
-//		$builder = $this->getContainerBuilder();
-//		$builder->addDefinition($this->prefix('selectize'))
-//			->setClass('\App\Form\Control\Selectize');
-//	}
-
+	public function loadConfiguration()
+	{
+		$config = $this->getConfig($this->defaults);
+		$builder = $this->getContainerBuilder();
+		$builder->addDefinition($this->prefix('selectize'))
+			->setClass('\App\Form\Control\Selectize');
+	}
 
 	public function afterCompile(Code\ClassType $class)
 	{
 		parent::afterCompile($class);
 
-		$init = $class->methods['initialize'];
-		$init->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $this->defaults]);
+		$config = $this->getConfig($this->defaults);
+		$this->initialization->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $config]);
 	}
 
-
-	/**
-	 * @param \Nette\Configurator $configurator
-	 */
-//	public static function register(Nette\Configurator $configurator)
-//	{
-//		$configurator->onCompile[] = function ($config, Nette\DI\Compiler $compiler) {
-//			$compiler->addExtension('selectizeExtension', new Selectize());
-//		};
-//	}
 }
