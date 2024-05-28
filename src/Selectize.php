@@ -18,25 +18,25 @@ use Nette\Utils;
  * Description of Selectize
  *
  * @author Petr Olišar <petr.olisar@gmail.com>
+ * @author <brouwer.p@gmail.com>
+ * @author Tomáš Hofman <hofman.tomas@gmail.com>
  */
 class Selectize extends Nette\Forms\Controls\BaseControl
 {
-	private $entity;
-	private $labelName;
-	private $selectize;
-	private $selectizeBack;
-	private $options;
-	private $prompt = FALSE;
+	private array $entity = [];
+	private string $label;
+	private array $selectize;
+	private array $selectizeBack;
+	private array $options;
+	private ?string $prompt = null;
 
-
-	public function __construct($label = null, array $entity = NULL, array $config = NULL)
+	public function __construct(?string $label = null, ?array $entity = null, ?array $options = null)
 	{
 		parent::__construct($label);
 		$this->entity = is_null($entity) ? [] : $entity;
-		$this->labelName = $label;
-		$this->options = $config;
+		$this->label = $label;
+		$this->options = $options;
 	}
-
 
 	public function setOptions(array $options)
 	{
@@ -47,13 +47,11 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		return $this;
 	}
 
-
 	public function setMode($mode)
 	{
 		$this->options['mode'] = $mode;
 		return $this;
 	}
-
 
 	public function setCreate($create)
 	{
@@ -61,13 +59,11 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		return $this;
 	}
 
-
 	public function maxItems($items)
 	{
 		$this->options['maxItems'] = $items;
 		return $this;
 	}
-
 
 	public function setDelimiter($delimiter)
 	{
@@ -75,13 +71,11 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		return $this;
 	}
 
-
 	public function setPlugins(array $plugins)
 	{
 		$this->options['plugins'] = $plugins;
 		return $this;
 	}
-
 
 	public function setValueField($valueField)
 	{
@@ -89,13 +83,11 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		return $this;
 	}
 
-
 	public function setLabelField($labelField)
 	{
 		$this->options['labelField'] = $labelField;
 		return $this;
 	}
-
 
 	public function setSearchField($searchField)
 	{
@@ -103,20 +95,17 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		return $this;
 	}
 
-
 	public function setClass($class)
 	{
 		$this->options['class'] = $class;
 		return $this;
 	}
 
-
 	public function setAjaxURL($ajaxURL)
 	{
 		$this->options['ajaxURL'] = $ajaxURL;
 		return $this;
 	}
-
 
 	/**
 	 * Sets first prompt item in select box.
@@ -129,7 +118,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		return $this;
 	}
 
-
 	/**
 	 * Returns first prompt item?
 	 * @return mixed
@@ -138,7 +126,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	{
 		return $this->prompt;
 	}
-
 
     /**
      * Sets options and option groups from which to choose.
@@ -150,7 +137,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
         return $this->entity = $items;
     }
 
-
 	/**
 	* Gets items
 	* @return array
@@ -158,7 +144,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 	public function getItems() {
         return $this->entity;
 	}
-
 
 	public function setValue($value)
 	{
@@ -192,7 +177,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		$this->selectize = $this->selectizeBack;
 	}
 
-
 	public function getValue()
 	{
 		if (is_array($this->selectize) && count($this->selectize) === 0) {
@@ -200,7 +184,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		}
 		return $this->selectize;
 	}
-
 
 	public function loadHttpData(): void
 	{
@@ -218,10 +201,9 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		}
 	}
 
-
 	public function getControl(): Utils\Html
 	{
-		$this->setOption('rendered', TRUE);
+		$this->setOption('rendered', true);
 		$name = $this->getHtmlName();
         $el = clone $this->control;
         if (array_key_exists('ajaxURL', $this->options))
@@ -241,7 +223,7 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 			]);
 		} elseif ($this->options['mode'] === 'select')
 		{
-			$this->entity = $this->prompt === FALSE ?
+			$this->entity = empty($this->prompt) ?
 				$this->entity : self::arrayUnshiftAssoc($this->entity, '', $this->translate($this->prompt));
 			return Nette\Forms\Helpers::createSelectBox($this->entity, [
 					'selected?' => $this->selectizeBack
@@ -256,23 +238,22 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		}
 	}
 
-    function findActiveValue($array, $key, $value)
-    {
-        $results = array();
+	private function findActiveValue($array, $key, $value)
+	{
+		$results = array();
 
-        if (is_array($array)) {
-            if (isset($array[$key]) && $array[$key] == $value) {
-                $results[] = $array;
-            }
+		if (is_array($array)) {
+			if (isset($array[$key]) && $array[$key] == $value) {
+				$results[] = $array;
+			}
 
-            foreach ($array as $subarray) {
-                $results = array_merge($results, $this->findActiveValue($subarray, $key, $value));
-            }
-        }
+			foreach ($array as $subarray) {
+				$results = array_merge($results, $this->findActiveValue($subarray, $key, $value));
+			}
+		}
 
-        return $results;
-    }
-
+		return $results;
+	}
 
 	private static function arrayUnshiftAssoc(&$arr, $key, $val)
 	{
@@ -280,7 +261,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		$arr[$key] = $val;
 		return array_reverse($arr, true);
 	}
-
 
 	private function prepareData()
 	{
@@ -300,14 +280,12 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		}
 	}
 
-
 	private function split($selectize)
 	{
 		$return = Nette\Utils\Strings::split(empty($selectize) ?
 			'' : $selectize, '~'.$this->options['delimiter'].'\s*~');
 		return $return[0] === "" ? [] : $return;
 	}
-
 
 	/**
 	 *
@@ -336,7 +314,6 @@ class Selectize extends Nette\Forms\Controls\BaseControl
 		}
 		return false;
 	}
-
 
 	public static function register($method = 'addSelectize', $config)
 	{

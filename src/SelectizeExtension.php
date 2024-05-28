@@ -18,8 +18,7 @@ use Nette\PhpGenerator as Code;
  */
 class SelectizeExtension extends Nette\DI\CompilerExtension
 {
-
-	private $defaults =  [
+	private array $defaults =  [
 	    'mode' => 'full',
 	    'create' => true,
 	    'maxItems' => null,
@@ -42,8 +41,7 @@ class SelectizeExtension extends Nette\DI\CompilerExtension
 	{
 		parent::afterCompile($class);
 
-		$config = $this->getConfig($this->defaults);
-		$this->initialization->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $config]);
+		$options = $this->getConfig($this->defaults);
+		$this->initialization->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $options]);
 	}
-
 }
