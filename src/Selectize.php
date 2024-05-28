@@ -23,18 +23,18 @@ use Nette\Utils;
  */
 class Selectize extends Nette\Forms\Controls\BaseControl
 {
-	private array $entity = [];
-	private string $label;
-	private array $selectize;
-	private array $selectizeBack;
-	private array $options;
-	private ?string $prompt = null;
+	private $entity = [];
+	private $labelName;
+	private $selectize;
+	private $selectizeBack;
+	private $options;
+	private $prompt = null;
 
 	public function __construct(?string $label = null, ?array $entity = null, ?array $options = null)
 	{
 		parent::__construct($label);
 		$this->entity = is_null($entity) ? [] : $entity;
-		$this->label = $label;
+		$this->labelName = $label;
 		$this->options = $options;
 	}
 

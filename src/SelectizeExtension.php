@@ -18,7 +18,7 @@ use Nette\PhpGenerator as Code;
  */
 class SelectizeExtension extends Nette\DI\CompilerExtension
 {
-	private array $defaults =  [
+	private $defaults =  [
 	    'mode' => 'full',
 	    'create' => true,
 	    'maxItems' => null,
