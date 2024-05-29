@@ -31,7 +31,6 @@ class SelectizeExtension extends Nette\DI\CompilerExtension
 
 	public function loadConfiguration()
 	{
-		$config = $this->getConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
 		$builder->addDefinition($this->prefix('selectize'))
 			->setClass('\App\Form\Control\Selectize');
@@ -41,7 +40,7 @@ class SelectizeExtension extends Nette\DI\CompilerExtension
 	{
 		parent::afterCompile($class);
 
-		$options = $this->getConfig($this->defaults);
+		$options = array_merge($this->defaults, $this->getConfig());
 		$this->initialization->addBody('\App\Form\Control\Selectize::register(?, ?);', ['addSelectize', $options]);
 	}
 }
